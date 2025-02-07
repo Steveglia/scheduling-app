@@ -7,21 +7,21 @@ const client = generateClient<Schema>();
 
 function App() {
   const { user, signOut } = useAuthenticator();
-  const [todos, setTodos] = useState<Array<Schema["Event"]["type"]>>([]);
+  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Event.observeQuery().subscribe({
+    client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
   }, []);
 
   function createTodo() {
-    client.models.Event.create({ title: window.prompt("Todo content") });
+    client.models.Todo.create({ content: window.prompt("Todo content") });
   }
 
     
   function deleteTodo(id: string) {
-    client.models.Event.delete({ id })
+    client.models.Todo.delete({ id })
   }
 
   return (
@@ -33,8 +33,7 @@ function App() {
         {todos.map(todo => <li
           onClick={() => deleteTodo(todo.id)}
           key={todo.id}>
-            
-          {/* {todo.content} */}
+          {todo.content}
         </li>)}
       </ul>
       <div>
