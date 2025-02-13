@@ -11,8 +11,28 @@ const schema = a.schema({
     .model({
       content: a.string(),
     }).authorization(allow => [allow.owner()]),
+  
+  Event: a
+    .model({
+      title: a.string(),
+      description: a.string(),
+      startDate: a.string(),
+      endDate: a.string(),
+      location: a.string(),
+    }).authorization(allow => [allow.owner()]),
 
-    
+  StudyPreference: a
+    .model({
+      studyTime: a.string(),
+      maxHoursPerDay: a.integer(),
+      lunchBreakStart: a.string(),
+      lunchBreakDuration: a.integer(),
+      studyDuringWork: a.boolean(),
+      preferredStartTime: a.string(),
+      preferredEndTime: a.string(),
+      owner: a.string(),  // To ensure one record per user
+    })
+    .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
